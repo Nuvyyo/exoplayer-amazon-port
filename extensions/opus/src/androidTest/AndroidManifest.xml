@@ -16,7 +16,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.google.android.exoplayer2.ext.opus.test">
+    package="com.google.android.exoplayer2.amazon.ext.opus.test">
 
   <application android:debuggable="true"
       android:allowBackup="false"
@@ -25,7 +25,7 @@
   </application>
 
   <instrumentation
-      android:targetPackage="com.google.android.exoplayer2.ext.opus.test"
+      android:targetPackage="com.google.android.exoplayer2.amazon.ext.opus.test"
       android:name="android.test.InstrumentationTestRunner"/>
 
 </manifest>

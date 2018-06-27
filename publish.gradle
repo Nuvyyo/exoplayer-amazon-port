@@ -13,15 +13,58 @@
 // limitations under the License.
 if (project.ext.has("exoplayerPublishEnabled")
         && project.ext.exoplayerPublishEnabled) {
-    apply plugin: 'bintray-release'
-    publish {
-        artifactId = releaseArtifact
-        desc = releaseDescription
-        publishVersion = releaseVersion
-        repoName = getBintrayRepo()
-        userOrg = 'google'
-        groupId = 'com.google.android.exoplayer'
-        website = 'https://github.com/google/ExoPlayer'
+    //apply plugin: 'bintray-release'
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'maven-publish'
+
+    // publish {
+    //     artifactId = releaseArtifact
+    //     desc = releaseDescription
+    //     publishVersion = releaseVersion
+    //     repoName = getBintrayRepo()
+    //     userOrg = 'google'
+    //     groupId = 'com.google.android.exoplayer.amazon'
+    //     website = 'https://github.com/google/ExoPlayer'
+    // }
+
+    // -------------------------------------------------------------------------------------------------
+    // Publishing
+
+    def libraryGroupId    = 'com.google.android.exoplayer.amazon'
+    def libraryArtifactId = releaseArtifact.replaceAll("exoplayer", "library")
+    def libraryVersion    = releaseVersion
+
+    def artifactoryRepo   = libraryVersion.endsWith("SNAPSHOT") ? 'libs-snapshot-local' : 'libs-release-local'
+
+    publishing {
+        publications {
+            aar(MavenPublication) {
+                groupId libraryGroupId
+                version libraryVersion
+                artifactId libraryArtifactId
+
+                artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+            }
+        }
+    }
+
+    artifactory {
+        contextUrl = "${artifactory_url}/artifactory"
+        publish {
+            repository {
+                repoKey = artifactoryRepo
+
+                username = "${artifactory_username}"
+                password = "${artifactory_password}"
+            }
+            defaults {
+                publications('aar')
+                publishArtifacts = true
+
+                properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+                publishPom = true
+            }
+        }
     }
 }
 
