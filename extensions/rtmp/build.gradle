@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation project(modulePrefix + 'library-core')
+    implementation project(modulePrefix + 'exoplayer-core')
     implementation 'net.butterflytv.utils:rtmp-client:3.0.1'
     implementation 'com.android.support:support-annotations:' + supportLibraryVersion
 }

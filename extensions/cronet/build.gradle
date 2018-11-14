@@ -31,9 +31,9 @@ android {
 
 dependencies {
     api 'org.chromium.net:cronet-embedded:66.3359.158'
-    implementation project(modulePrefix + 'library-core')
+    implementation project(modulePrefix + 'exoplayer-core')
     implementation 'com.android.support:support-annotations:' + supportLibraryVersion
-    testImplementation project(modulePrefix + 'library')
+    testImplementation project(modulePrefix + 'exoplayer')
     testImplementation project(modulePrefix + 'testutils-robolectric')
 }
 

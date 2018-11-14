@@ -52,11 +52,11 @@ android {
 }
 
 dependencies {
-    implementation project(modulePrefix + 'library-core')
-    implementation project(modulePrefix + 'library-dash')
-    implementation project(modulePrefix + 'library-hls')
-    implementation project(modulePrefix + 'library-smoothstreaming')
-    implementation project(modulePrefix + 'library-ui')
+    implementation project(modulePrefix + 'exoplayer-core')
+    implementation project(modulePrefix + 'exoplayer-dash')
+    implementation project(modulePrefix + 'exoplayer-hls')
+    implementation project(modulePrefix + 'exoplayer-smoothstreaming')
+    implementation project(modulePrefix + 'exoplayer-ui')
     implementation project(modulePrefix + 'extension-cast')
     implementation 'com.android.support:support-v4:' + supportLibraryVersion
     implementation 'com.android.support:appcompat-v7:' + supportLibraryVersion

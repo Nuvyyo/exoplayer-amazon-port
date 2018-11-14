@@ -63,11 +63,11 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-annotations:' + supportLibraryVersion
-    implementation project(modulePrefix + 'library-core')
-    implementation project(modulePrefix + 'library-dash')
-    implementation project(modulePrefix + 'library-hls')
-    implementation project(modulePrefix + 'library-smoothstreaming')
-    implementation project(modulePrefix + 'library-ui')
+    implementation project(modulePrefix + 'exoplayer-core')
+    implementation project(modulePrefix + 'exoplayer-dash')
+    implementation project(modulePrefix + 'exoplayer-hls')
+    implementation project(modulePrefix + 'exoplayer-smoothstreaming')
+    implementation project(modulePrefix + 'exoplayer-ui')
     withExtensionsImplementation project(path: modulePrefix + 'extension-ffmpeg')
     withExtensionsImplementation project(path: modulePrefix + 'extension-flac')
     withExtensionsImplementation project(path: modulePrefix + 'extension-ima')

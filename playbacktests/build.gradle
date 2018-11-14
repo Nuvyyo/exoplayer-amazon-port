@@ -34,8 +34,8 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:' + testRunnerVersion
     androidTestImplementation 'androidx.test:runner:' + testRunnerVersion
     androidTestImplementation 'com.android.support:support-annotations:' + supportLibraryVersion
-    androidTestImplementation project(modulePrefix + 'library-core')
-    androidTestImplementation project(modulePrefix + 'library-dash')
-    androidTestImplementation project(modulePrefix + 'library-hls')
+    androidTestImplementation project(modulePrefix + 'exoplayer-core')
+    androidTestImplementation project(modulePrefix + 'exoplayer-dash')
+    androidTestImplementation project(modulePrefix + 'exoplayer-hls')
     androidTestImplementation project(modulePrefix + 'testutils')
 }
