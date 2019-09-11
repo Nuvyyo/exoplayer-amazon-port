@@ -31,7 +31,16 @@ public final class FfmpegLibrary {
   }
 
   private static final LibraryLoader LOADER =
-      new LibraryLoader("avutil", "avresample", "avcodec", "ffmpeg");
+      new LibraryLoader(
+              "avcodec",
+              "swscale",
+              "avresample",
+              "swresample",
+              "avformat",
+              "avdevice",
+              "avutil",
+              "avfilter",
+              "ffmpeg");
 
   private FfmpegLibrary() {}
 
