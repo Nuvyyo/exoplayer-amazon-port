@@ -42,7 +42,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.2'
     compileOnly 'org.checkerframework:checker-qual:' + checkerframeworkVersion
     implementation project(modulePrefix + 'library-core')
-    testImplementation project(modulePrefix + 'testutils-robolectric')
+    //testImplementation project(modulePrefix + 'testutils-robolectric')
 }
 
 ext {

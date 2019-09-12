@@ -40,9 +40,9 @@ android {
 dependencies {
     implementation project(modulePrefix + 'library-core')
     implementation 'androidx.annotation:annotation:1.0.2'
-    androidTestImplementation project(modulePrefix + 'testutils')
+    //androidTestImplementation project(modulePrefix + 'testutils')
     androidTestImplementation 'androidx.test:runner:' + androidXTestVersion
-    testImplementation project(modulePrefix + 'testutils-robolectric')
+    //testImplementation project(modulePrefix + 'testutils-robolectric')
 }
 
 ext {

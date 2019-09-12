@@ -46,7 +46,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Extracts data from the MPEG-2 TS container format.
@@ -130,6 +132,8 @@ public final class TsExtractor implements Extractor {
   private int bytesSinceLastSync;
   private int pcrPid;
 
+  private Set<Integer> whiteListPIDs = new HashSet<>();
+
   public TsExtractor() {
     this(0);
   }
@@ -181,6 +185,18 @@ public final class TsExtractor implements Extractor {
     durationReader = new TsDurationReader();
     pcrPid = -1;
     resetPayloadReaders();
+  }
+
+  public void addWhiteListPID(int pid) {
+    whiteListPIDs.add(pid);
+  }
+
+  public void removeWhiteListPID(int pid) {
+    whiteListPIDs.remove(pid);
+  }
+
+  public void clearWhiteListPIDs() {
+    whiteListPIDs.clear();
   }
 
   // Extractor implementation.
@@ -582,6 +598,10 @@ public final class TsExtractor implements Extractor {
           streamType = esInfo.streamType;
         }
         remainingEntriesLength -= esInfoLength + 5;
+
+        // Filter unwanted PIDs.
+        if(whiteListPIDs.size() > 0 && !whiteListPIDs.contains(elementaryPid))
+          continue;
 
         int trackId = mode == MODE_HLS ? streamType : elementaryPid;
         if (trackIds.get(trackId)) {
