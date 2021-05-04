@@ -21,6 +21,7 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.accessibility.CaptioningManager;
@@ -127,6 +128,9 @@ public final class SubtitleView extends View implements TextOutput {
    */
   public void setUserDefaultTextSize() {
     float fontScale = Util.SDK_INT >= 19 && !isInEditMode() ? getUserCaptionFontScaleV19() : 1f;
+    Log.d("SubtitleView", "setUserDefaultTextSize() fontScale = "+fontScale);
+    Log.d("SubtitleView", "setUserDefaultTextSize() DEFAULT_TEXT_SIZE_FRACTION = "+DEFAULT_TEXT_SIZE_FRACTION);
+    Log.d("SubtitleView", "setUserDefaultTextSize() setFractionalTextSize(" + (DEFAULT_TEXT_SIZE_FRACTION * fontScale) + ")");
     setFractionalTextSize(DEFAULT_TEXT_SIZE_FRACTION * fontScale);
   }
 
@@ -152,6 +156,7 @@ public final class SubtitleView extends View implements TextOutput {
    *     height after the top and bottom padding has been subtracted.
    */
   public void setFractionalTextSize(float fractionOfHeight, boolean ignorePadding) {
+    Log.d("SubtitleView", "setFractionalTextSize() fractionOfHeight = "+fractionOfHeight);
     setTextSize(
         ignorePadding
             ? Cue.TEXT_SIZE_TYPE_FRACTIONAL_IGNORE_PADDING
@@ -247,7 +252,12 @@ public final class SubtitleView extends View implements TextOutput {
   @Override
   public void dispatchDraw(Canvas canvas) {
     int cueCount = (cues == null) ? 0 : cues.size();
+
+    int rawViewWidth = getWidth();
     int rawViewHeight = getHeight();
+
+    int rawLargestSize = Math.max(rawViewWidth, rawViewHeight);
+    int rawSmallestSize = Math.min(rawViewWidth, rawViewHeight);
 
     // Calculate the cue box bounds relative to the canvas after padding is taken into account.
     int left = getPaddingLeft();
@@ -258,10 +268,13 @@ public final class SubtitleView extends View implements TextOutput {
       // No space to draw subtitles.
       return;
     }
+
+    int viewWidthMinusPadding = right - left;
     int viewHeightMinusPadding = bottom - top;
 
-    float defaultViewTextSizePx =
-        resolveTextSize(textSizeType, textSize, rawViewHeight, viewHeightMinusPadding);
+    int viewSmallestSizeMinusPadding = rawViewWidth > rawViewHeight ? viewHeightMinusPadding : viewWidthMinusPadding;
+
+    float defaultViewTextSizePx = resolveTextSize(textSizeType, textSize, rawSmallestSize, viewSmallestSizeMinusPadding);
     if (defaultViewTextSizePx <= 0) {
       // Text has no height.
       return;
@@ -269,7 +282,7 @@ public final class SubtitleView extends View implements TextOutput {
 
     for (int i = 0; i < cueCount; i++) {
       Cue cue = cues.get(i);
-      float cueTextSizePx = resolveCueTextSize(cue, rawViewHeight, viewHeightMinusPadding);
+      float cueTextSizePx = resolveCueTextSize(cue, rawSmallestSize, viewSmallestSizeMinusPadding);
       SubtitlePainter painter = painters.get(i);
       painter.draw(
           cue,
